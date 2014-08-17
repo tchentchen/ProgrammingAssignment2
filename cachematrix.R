@@ -1,7 +1,3 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
 
 # makeCacheMatrix - creates a list with setter and getter functions for
 # storing a matrix and its inverse solution
@@ -37,8 +33,28 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Write a short comment describing this function
+# cacheSolve - solves for the inverse matrix stored in makeCacheMatrix object
+# if inverse has already been solved, it caches it in makeCacheMatrix and
+# returns the cached solution. Otherwise, it creates the solution and
+# caches the result in makeCacheMatrix
+# -- takes a makeCacheMatrix object as an argument
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  # get inverse out of object
+  inv_matrix <- x$getInverse()
+  # check if there's an inverse that was already stored
+  if (!is.null(inv_matrix)) {
+    # if so, do nothing and let result be returned
+    message("returning cached result")
+  }
+  else {
+    # there is no result so we need to get the initial matrix,
+    # solve it, and then store it in the makeCacheMatrix object
+    message("calculating inverse and returning result")
+    init_matrix <- x$get()
+    inv_matrix <- solve(init_matrix)
+    x$setInverse(inv_matrix)
+  }
+  # return either the solved or cached result
+  inv_matrix
 }
